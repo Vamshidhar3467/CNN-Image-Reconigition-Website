@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Recognizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6fb;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 2.5rem 2rem 2rem 2rem;
+            max-width: 350px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+        }
+        form {
+            margin-bottom: 1.5rem;
+        }
+        input[type="file"] {
+            margin-bottom: 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 0.5rem;
+            width: 100%;
+        }
+        input[type="submit"] {
+            background: #4f8cff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        input[type="submit"]:hover {
+            background: #2563eb;
+        }
+        .result {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2563eb;
+        }
+        .image-preview {
+            margin-top: 1.2rem;
+        }
+        .image-preview img {
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            width: 120px;
+            height: auto;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 1.2rem 0.5rem;
+                max-width: 98vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Handwritten Digit Recognition</h1>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required><br>
+            <input type="submit" value="Predict Digit">
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">{{ prediction_text }}</div>
+        {% endif %}
+
+        {% if image_path %}
+            <div class="image-preview">
+                <h4>Uploaded Digit</h4>
+                <img src="{{ image_path }}" alt="Uploaded Digit">
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
