@@ -10,7 +10,7 @@
 1. **Push to GitHub** (if not already done):
    ```bash
    git add .
-   git commit -m "Prepare for deployment"
+   git commit -m "Fix deployment dependencies"
    git push origin main
    ```
 
@@ -36,9 +36,9 @@ Add these in Render dashboard if needed:
 3. **Your app will be live at**: `https://your-app-name.onrender.com`
 
 ## 🔧 Files Added for Deployment
-- ✅ `requirements.txt` - Updated with specific versions
+- ✅ `requirements.txt` - Updated with stable versions (no scikit-learn)
 - ✅ `Procfile` - Tells Render how to run the app
-- ✅ `runtime.txt` - Specifies Python version
+- ✅ `runtime.txt` - Specifies Python 3.10.12 (stable version)
 
 ## 🎉 What You Get
 - **Free hosting** with Render
@@ -62,10 +62,32 @@ If Render doesn't work, try [Railway.app](https://railway.app):
 3. Faster deployments
 
 ## 🆘 Troubleshooting
+
+### ❌ Build Fails with scikit-learn Error
+**Problem**: `Cython.Compiler.Errors.CompileError: sklearn/linear_model/_cd_fast.pyx`
+
+**Solution**: ✅ **FIXED** - Removed scikit-learn from requirements.txt (not used in your app)
+
+### ❌ Other Common Issues:
 - **Build fails**: Check requirements.txt versions
 - **App crashes**: Check logs in Render dashboard
 - **Model not found**: Ensure `cnn_model.h5` is in repository
 - **Memory issues**: Consider paid plan for more RAM
+- **Python version issues**: Using Python 3.10.12 (very stable)
+
+### 🔧 Manual Fix Steps:
+1. **If build still fails**, try these versions:
+   ```
+   flask==2.0.3
+   pillow==9.0.1
+   numpy==1.21.6
+   tensorflow==2.8.0
+   gunicorn==20.1.0
+   werkzeug==2.0.3
+   ```
+
+2. **Check Render logs** for specific error messages
+3. **Ensure all files are committed** to GitHub
 
 ## 📱 Testing Your Deployed App
 1. Upload an image of a handwritten digit
@@ -73,4 +95,10 @@ If Render doesn't work, try [Railway.app](https://railway.app):
 3. Verify the prediction works correctly
 
 ---
-**🎯 Your app will be live and accessible worldwide!** 
+**🎯 Your app will be live and accessible worldwide!**
+
+## ✅ What Was Fixed
+- **Removed scikit-learn** (not used in your app)
+- **Updated to Python 3.10.12** (more stable)
+- **Used conservative package versions** (better compatibility)
+- **Added troubleshooting section** for common issues 
