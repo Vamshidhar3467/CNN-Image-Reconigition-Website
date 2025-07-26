@@ -10,7 +10,7 @@
 1. **Push to GitHub** (if not already done):
    ```bash
    git add .
-   git commit -m "Fix deployment dependencies"
+   git commit -m "Fix Python 3.13 compatibility"
    git push origin main
    ```
 
@@ -36,9 +36,11 @@ Add these in Render dashboard if needed:
 3. **Your app will be live at**: `https://your-app-name.onrender.com`
 
 ## 🔧 Files Added for Deployment
-- ✅ `requirements.txt` - Updated with stable versions (no scikit-learn)
+- ✅ `requirements.txt` - Updated for Python 3.13 compatibility
+- ✅ `requirements-minimal.txt` - Conservative versions (backup)
 - ✅ `Procfile` - Tells Render how to run the app
-- ✅ `runtime.txt` - Specifies Python 3.10.12 (stable version)
+- ✅ `runtime.txt` - Specifies Python 3.11.7
+- ✅ `render.yaml` - Explicit deployment configuration
 
 ## 🎉 What You Get
 - **Free hosting** with Render
@@ -63,31 +65,38 @@ If Render doesn't work, try [Railway.app](https://railway.app):
 
 ## 🆘 Troubleshooting
 
-### ❌ Build Fails with scikit-learn Error
-**Problem**: `Cython.Compiler.Errors.CompileError: sklearn/linear_model/_cd_fast.pyx`
+### ❌ Pillow Build Error on Python 3.13
+**Problem**: `KeyError: '__version__'` during Pillow installation
 
-**Solution**: ✅ **FIXED** - Removed scikit-learn from requirements.txt (not used in your app)
+**Solution**: ✅ **FIXED** - Updated to Pillow 10.1.0 and Python 3.11.7
+
+### ❌ Python Version Issues
+**Problem**: Render ignoring runtime.txt and using Python 3.13.4
+
+**Solutions**:
+1. ✅ **Added render.yaml** - Explicit configuration
+2. ✅ **Updated requirements.txt** - Python 3.13 compatible versions
+3. ✅ **Created requirements-minimal.txt** - Conservative versions
+
+### 🔧 Manual Fix Steps:
+1. **If build still fails**, try the minimal requirements:
+   ```bash
+   # In Render dashboard, change build command to:
+   pip install -r requirements-minimal.txt
+   ```
+
+2. **Alternative: Use Railway.app** (often more reliable):
+   - Go to [railway.app](https://railway.app)
+   - Connect GitHub repo
+   - Deploy with same settings
+
+3. **Check Render logs** for specific error messages
 
 ### ❌ Other Common Issues:
 - **Build fails**: Check requirements.txt versions
 - **App crashes**: Check logs in Render dashboard
 - **Model not found**: Ensure `cnn_model.h5` is in repository
 - **Memory issues**: Consider paid plan for more RAM
-- **Python version issues**: Using Python 3.10.12 (very stable)
-
-### 🔧 Manual Fix Steps:
-1. **If build still fails**, try these versions:
-   ```
-   flask==2.0.3
-   pillow==9.0.1
-   numpy==1.21.6
-   tensorflow==2.8.0
-   gunicorn==20.1.0
-   werkzeug==2.0.3
-   ```
-
-2. **Check Render logs** for specific error messages
-3. **Ensure all files are committed** to GitHub
 
 ## 📱 Testing Your Deployed App
 1. Upload an image of a handwritten digit
@@ -98,7 +107,13 @@ If Render doesn't work, try [Railway.app](https://railway.app):
 **🎯 Your app will be live and accessible worldwide!**
 
 ## ✅ What Was Fixed
-- **Removed scikit-learn** (not used in your app)
-- **Updated to Python 3.10.12** (more stable)
-- **Used conservative package versions** (better compatibility)
-- **Added troubleshooting section** for common issues 
+- **Updated Pillow to 10.1.0** (Python 3.13 compatible)
+- **Added render.yaml** (explicit configuration)
+- **Created requirements-minimal.txt** (backup option)
+- **Updated to Python 3.11.7** (more stable)
+- **Enhanced troubleshooting section**
+
+## 🚀 Quick Deploy Options
+1. **Try Render first** with updated files
+2. **If Render fails**: Use Railway.app (more reliable)
+3. **Last resort**: Use requirements-minimal.txt 
