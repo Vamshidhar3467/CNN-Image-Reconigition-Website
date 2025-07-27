@@ -1,8 +1,7 @@
 services:
   - type: web
-    name: cnn-digit-recognition
+    name: cnn-image-recognition
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
-    pythonVersion: "3.11.7" 
+    startCommand: python app.py
